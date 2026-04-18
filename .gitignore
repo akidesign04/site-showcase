@@ -23,6 +23,13 @@ CLAUDE.md
 design.md
 **/design.md
 
+# 環境変数・機密情報（保険として念のため）
+.env
+.env.*
+*.pem
+*.key
+secrets/
+
 # Node (使うことがあれば)
 node_modules/
 npm-debug.log*
