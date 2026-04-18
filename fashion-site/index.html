@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="description" content="NOCTURNE — Five Acts of Night. Autumn / Winter 2025–26 Collection.">
+  <meta name="google" content="notranslate">
+  <title>NOCTURNE — Five Acts of Night · A/W 2025–26</title>
+
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://images.unsplash.com">
+
+  <!-- Fonts (preserved trio, expanded weights) -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ========== Preloader ========== -->
+  <div id="preloader" aria-hidden="true">
+    <div class="preloader-grid">
+      <div class="preloader-brand">
+        <span class="preloader-mark" aria-hidden="true">&#8214;</span>
+        <span class="preloader-name">NOCTURNE</span>
+      </div>
+      <div class="preloader-meta">
+        <span class="preloader-season">AUTUMN / WINTER</span>
+        <span class="preloader-year">MMXXV &mdash; MMXXVI</span>
+      </div>
+      <div class="preloader-line" aria-hidden="true">
+        <div class="preloader-line-fill"></div>
+      </div>
+      <div class="preloader-count">
+        <span class="preloader-count-num">0</span>
+        <span class="preloader-count-unit">%</span>
+      </div>
+      <div class="preloader-whisper" aria-hidden="true">
+        <span>&mdash;</span>
+        <em>five acts of night</em>
+        <span>&mdash;</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== WebGL Canvas ========== -->
+  <canvas id="gl-canvas" aria-hidden="true"></canvas>
+
+  <!-- ========== Overlays ========== -->
+  <div id="grain-overlay" aria-hidden="true"></div>
+  <div id="vignette" aria-hidden="true"></div>
+  <div id="gradient-top" aria-hidden="true"></div>
+  <div id="gradient-bottom" aria-hidden="true"></div>
+  <div id="scanline" aria-hidden="true"></div>
+
+  <!-- ========== Custom Cursor ========== -->
+  <div id="cursor" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true">
+    <svg class="cursor-ring-svg" viewBox="0 0 80 80">
+      <circle class="cursor-ring-track" cx="40" cy="40" r="38" />
+      <circle class="cursor-ring-progress" cx="40" cy="40" r="38" />
+    </svg>
+    <span class="cursor-label" id="cursor-label"></span>
+  </div>
+
+  <!-- ========== Navigation ========== -->
+  <nav id="nav" aria-label="primary">
+    <div class="nav-logo">
+      <span class="logo-mark" aria-hidden="true">&#8214;</span>
+      <span class="logo-text">NOCTURNE</span>
+      <span class="logo-edition">No. V</span>
+    </div>
+
+    <div class="nav-center">
+      <ul class="nav-links" role="list">
+        <li><a href="#" data-nav="collections">Collections</a></li>
+        <li><a href="#" data-nav="lookbook">Lookbook</a></li>
+        <li><a href="#" data-nav="journal">Journal</a></li>
+        <li><a href="#" data-nav="atelier">Atelier</a></li>
+      </ul>
+    </div>
+
+    <div class="nav-right">
+      <button class="nav-sound" aria-pressed="false" aria-label="Toggle ambient sound">
+        <span class="sound-bars" aria-hidden="true">
+          <span></span><span></span><span></span><span></span>
+        </span>
+        <span class="sound-label">AMBIENCE</span>
+      </button>
+      <span class="nav-cta" aria-hidden="true">A/W &#183; MMXXV</span>
+      <button class="nav-menu" aria-label="Open menu" aria-expanded="false">
+        <span class="nav-menu-glyph" aria-hidden="true">
+          <span></span><span></span>
+        </span>
+        <span class="nav-menu-label">MENU</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== Side Label ========== -->
+  <div id="side-label" aria-hidden="true">
+    <span>NOCTURNE &mdash; FIVE ACTS OF NIGHT &mdash; AUTUMN / WINTER &mdash; MMXXV / MMXXVI</span>
+  </div>
+
+  <!-- ========== Main Text (per-slide) ========== -->
+  <div id="main-text">
+    <div class="text-line-deco" aria-hidden="true"></div>
+
+    <div class="text-eyebrow">
+      <span class="eyebrow-dot" aria-hidden="true"></span>
+      <span class="eyebrow-text">Act</span>
+      <span class="eyebrow-num" id="text-number">I</span>
+      <span class="eyebrow-sep" aria-hidden="true"></span>
+      <span class="eyebrow-chapter" id="text-chapter">The Morning Square</span>
+    </div>
+
+    <h1 class="text-title-wrap">
+      <span class="text-title-mask"><span class="text-title" id="text-title">AZURE</span></span>
+    </h1>
+
+    <p class="text-sub">
+      <span class="text-sub-inner" id="text-sub">A coat in the color of open sky.</span>
+    </p>
+
+    <div class="text-details">
+      <span class="text-fabric">
+        <span class="detail-label">Fabric</span>
+        <span class="detail-value" id="text-fabric">Wool · Silk · Cashmere</span>
+      </span>
+      <span class="text-looks">
+        <span class="detail-label">Looks</span>
+        <span class="detail-value" id="text-looks">12</span>
+      </span>
+    </div>
+
+    <button class="text-cta" id="open-detail" aria-label="Open act detail">
+      <span class="cta-text">View the Act</span>
+      <span class="cta-line" aria-hidden="true"></span>
+      <span class="cta-arrow" aria-hidden="true">
+        <svg viewBox="0 0 32 8" fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M0 4 H30 M26 1 L30 4 L26 7" />
+        </svg>
+      </span>
+    </button>
+
+    <div class="text-divider" aria-hidden="true"></div>
+  </div>
+
+  <!-- ========== Nav Buttons ========== -->
+  <div id="nav-buttons" aria-label="collection navigation">
+    <button class="round-btn" id="btn-prev" aria-label="Previous act" data-cursor="PREV">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </button>
+
+    <div class="nav-ticker" aria-hidden="true">
+      <span class="ticker-dot" data-index="0"></span>
+      <span class="ticker-dot" data-index="1"></span>
+      <span class="ticker-dot" data-index="2"></span>
+      <span class="ticker-dot" data-index="3"></span>
+      <span class="ticker-dot" data-index="4"></span>
+    </div>
+
+    <button class="round-btn" id="btn-next" aria-label="Next act" data-cursor="NEXT">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" aria-hidden="true">
+        <polyline points="9 18 15 12 9 6"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- ========== Indicator (vertical progress / clock) ========== -->
+  <div id="indicator" aria-hidden="true">
+    <div class="clock">
+      <span class="clock-number" id="ind-current">01</span>
+      <span class="clock-sep">/</span>
+      <span class="clock-total" id="ind-total">05</span>
+    </div>
+    <div class="ind-line"><div class="ind-line-fill"></div></div>
+    <div class="clock-label" id="ind-label">OPENING</div>
+  </div>
+
+  <!-- ========== Ambient Marquee (bottom whisper) ========== -->
+  <div id="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>NOCTURNE</span><span>&#8214;</span>
+      <span>Five Acts of Night</span><span>&#8214;</span>
+      <span>A/W MMXXV</span><span>&#8214;</span>
+      <span>Paris &#183; Kyoto &#183; Antwerp</span><span>&#8214;</span>
+      <span>Presented in silence</span><span>&#8214;</span>
+      <!-- duplicate for seamless loop -->
+      <span>NOCTURNE</span><span>&#8214;</span>
+      <span>Five Acts of Night</span><span>&#8214;</span>
+      <span>A/W MMXXV</span><span>&#8214;</span>
+      <span>Paris &#183; Kyoto &#183; Antwerp</span><span>&#8214;</span>
+      <span>Presented in silence</span><span>&#8214;</span>
+    </div>
+  </div>
+
+  <!-- ========== Menu Overlay ========== -->
+  <div id="menu-overlay" aria-hidden="true" role="dialog" aria-label="Main menu">
+    <div class="menu-backdrop"></div>
+
+    <div class="menu-grid">
+      <div class="menu-header">
+        <span class="menu-eyebrow">Index &mdash; V.MMXXV</span>
+        <button class="menu-close" aria-label="Close menu">
+          <span class="menu-close-line"></span>
+          <span class="menu-close-line"></span>
+          <span>CLOSE</span>
+        </button>
+      </div>
+
+      <nav class="menu-nav" aria-label="sections">
+        <ol class="menu-list" role="list">
+          <li class="menu-item" data-menu="01">
+            <a href="#">
+              <span class="menu-num">&#8212; 01</span>
+              <span class="menu-word">Collection</span>
+              <span class="menu-word-italic">&mdash; Five Acts</span>
+            </a>
+          </li>
+          <li class="menu-item" data-menu="02">
+            <a href="#">
+              <span class="menu-num">&#8212; 02</span>
+              <span class="menu-word">Lookbook</span>
+              <span class="menu-word-italic">&mdash; 60 Frames</span>
+            </a>
+          </li>
+          <li class="menu-item" data-menu="03">
+            <a href="#">
+              <span class="menu-num">&#8212; 03</span>
+              <span class="menu-word">Journal</span>
+              <span class="menu-word-italic">&mdash; Notes from the Night</span>
+            </a>
+          </li>
+          <li class="menu-item" data-menu="04">
+            <a href="#">
+              <span class="menu-num">&#8212; 04</span>
+              <span class="menu-word">Atelier</span>
+              <span class="menu-word-italic">&mdash; Paris, 7e</span>
+            </a>
+          </li>
+          <li class="menu-item" data-menu="05">
+            <a href="#">
+              <span class="menu-num">&#8212; 05</span>
+              <span class="menu-word">Contact</span>
+              <span class="menu-word-italic">&mdash; Private Viewing</span>
+            </a>
+          </li>
+        </ol>
+      </nav>
+
+      <aside class="menu-aside">
+        <div class="menu-columns">
+          <div class="menu-col">
+            <h4>Visit</h4>
+            <p>18 Rue du Pré-aux-Clercs<br>75007 Paris, FR</p>
+            <p>By appointment only</p>
+          </div>
+          <div class="menu-col">
+            <h4>Enquiries</h4>
+            <p><a href="mailto:hours@nocturne.maison">hours@nocturne.maison</a></p>
+            <p><a href="tel:+33100000000">+33 1 00 00 00 00</a></p>
+          </div>
+          <div class="menu-col">
+            <h4>Follow</h4>
+            <p><a href="#">Instagram</a></p>
+            <p><a href="#">Are.na</a></p>
+            <p><a href="#">Substack</a></p>
+          </div>
+        </div>
+
+        <div class="menu-quote">
+          <span class="q-mark">&ldquo;</span>
+          <em>The night does not undress. It waits to be read.</em>
+          <span class="q-cite">&mdash; NOCTURNE, A/W MMXXV</span>
+        </div>
+
+        <div class="menu-footer">
+          <span>&copy; NOCTURNE Maison</span>
+          <span>Edition V</span>
+          <span>Imprint</span>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- ========== Detail Overlay ========== -->
+  <div id="detail-overlay" aria-hidden="true" role="dialog" aria-label="Act detail">
+    <div class="detail-backdrop"></div>
+
+    <button class="detail-close" aria-label="Close detail">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+        <line x1="4" y1="4" x2="20" y2="20"/>
+        <line x1="20" y1="4" x2="4" y2="20"/>
+      </svg>
+      <span>CLOSE</span>
+    </button>
+
+    <div class="detail-shell">
+      <div class="detail-media">
+        <div class="detail-image-wrap">
+          <img id="detail-image" alt="">
+          <div class="detail-image-grade" aria-hidden="true"></div>
+          <div class="detail-image-grain" aria-hidden="true"></div>
+          <div class="detail-image-frame" aria-hidden="true"></div>
+          <div class="detail-image-corner detail-image-corner--tl" aria-hidden="true"></div>
+          <div class="detail-image-corner detail-image-corner--tr" aria-hidden="true"></div>
+          <div class="detail-image-corner detail-image-corner--bl" aria-hidden="true"></div>
+          <div class="detail-image-corner detail-image-corner--br" aria-hidden="true"></div>
+        </div>
+        <div class="detail-meta">
+          <span class="detail-meta-act" id="detail-meta-act">ACT I</span>
+          <span class="detail-meta-title" id="detail-meta-title">AZURE</span>
+        </div>
+      </div>
+
+      <div class="detail-content">
+        <div class="detail-scroll">
+          <header class="detail-head">
+            <span class="detail-eyebrow">
+              <span class="detail-eyebrow-dot"></span>
+              <span id="detail-eyebrow-text">The Morning Square</span>
+            </span>
+            <h2 class="detail-title" id="detail-title">AZURE</h2>
+            <p class="detail-lede" id="detail-lede">
+              A coat in the color of open sky.
+            </p>
+          </header>
+
+          <div class="detail-section">
+            <span class="detail-section-label">Story</span>
+            <p class="detail-text" id="detail-story">
+              The first hour after sunset, when light softens and the world breathes out.
+              Tailoring built on the geometry of twilight: shoulders lowered, lapels narrowed,
+              the suit worn as a second skin.
+            </p>
+          </div>
+
+          <div class="detail-section">
+            <span class="detail-section-label">Fabric</span>
+            <ul class="detail-list" id="detail-fabric-list">
+              <li>Virgin wool, brushed handle, 420 g/m².</li>
+              <li>Mulberry silk lining, midnight-dyed.</li>
+              <li>Cashmere, woven in a micro-herringbone.</li>
+            </ul>
+          </div>
+
+          <div class="detail-section">
+            <span class="detail-section-label">Silhouette</span>
+            <p class="detail-text" id="detail-silhouette">
+              Long jacket, dropped shoulder, a single closed button.
+              Trousers pleated once, falling to the ankle.
+            </p>
+          </div>
+
+          <div class="detail-section detail-looks">
+            <span class="detail-section-label">Looks &mdash; <span id="detail-looks-count">12</span></span>
+            <div class="detail-thumbs" id="detail-thumbs" aria-hidden="true">
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+
+          <div class="detail-foot">
+            <span>Runway &mdash; Paris, 03.III.MMXXV</span>
+            <span>Director &mdash; N. Almara</span>
+            <span>Score &mdash; Jóhann J.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Footer ========== -->
+  <footer id="footer" aria-label="Footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <h3 class="footer-headline">
+          <em>The night</em> does not end.<br>
+          It simply <strong>rewrites</strong> itself.
+        </h3>
+        <form class="footer-form" onsubmit="return false;" aria-label="Newsletter signup">
+          <label for="footer-email" class="footer-form-label">Private viewings &mdash; by letter.</label>
+          <div class="footer-form-row">
+            <input id="footer-email" type="email" placeholder="your address" autocomplete="email">
+            <button type="submit" aria-label="Subscribe">
+              <span>JOIN</span>
+              <svg viewBox="0 0 32 8" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+                <path d="M0 4 H30 M26 1 L30 4 L26 7" />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="footer-mid">
+        <div class="footer-col">
+          <h4>Maison</h4>
+          <a href="#">About</a>
+          <a href="#">Atelier</a>
+          <a href="#">Manifesto</a>
+          <a href="#">Press</a>
+        </div>
+        <div class="footer-col">
+          <h4>Collections</h4>
+          <a href="#">A/W MMXXV</a>
+          <a href="#">S/S MMXXV</a>
+          <a href="#">Archive</a>
+        </div>
+        <div class="footer-col">
+          <h4>Visit</h4>
+          <p>Paris &mdash; 18 Rue du Pré-aux-Clercs</p>
+          <p>Kyoto &mdash; Sanjō-dōri, 17</p>
+          <p>Antwerp &mdash; Kloosterstraat, 44</p>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="#">Imprint</a>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-mark">
+          <span class="footer-mark-char">N</span>
+          <span class="footer-mark-divider"></span>
+          <span class="footer-mark-text">NOCTURNE MAISON &mdash; FIVE ACTS OF NIGHT</span>
+        </div>
+        <div class="footer-meta">
+          <span>&copy; MMXXV</span>
+          <span>Edition V</span>
+          <span>Presented in silence</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-glyph" aria-hidden="true">
+      <span>N O C T U R N E</span>
+    </div>
+  </footer>
+
+  <!-- ========== Scripts ========== -->
+  <script src="js/webgl.js"></script>
+  <script src="js/carousel.js"></script>
+  <script src="js/menu.js"></script>
+  <script src="js/detail.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
